@@ -1,0 +1,11 @@
+#!/usr/bin/expect
+
+set password [lindex $argv 0];
+spawn slappasswd -h \{SSHA\}
+
+expect "New password: "
+send "$password\r"
+expect "Re-enter new password: "
+send "$password\r"
+
+interact
