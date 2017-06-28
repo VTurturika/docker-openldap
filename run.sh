@@ -13,10 +13,10 @@ fi
 
 printf "Starting container...\n"
 if [ $PORT -gt 1024 ]; then
-    CONTAINER=$(docker run -d -p $PORT:389 --env PASSWORD="$PASSWORD" ldap);
+    CONTAINER=$(docker run -d -p $PORT:389 --env PASSWORD="$PASSWORD" vturturika/ldap);
 else
     printf "Trying to use $PORT port. You must have been admin\n"
-    CONTAINER=$(sudo docker run -d -p $PORT:389 --env PASSWORD="$PASSWORD" ldap);
+    CONTAINER=$(sudo docker run -d -p $PORT:389 --env PASSWORD="$PASSWORD" vturturika/ldap);
 fi
 printf "Done\n"
 echo $CONTAINER > container_hash
