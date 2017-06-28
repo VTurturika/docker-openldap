@@ -1,18 +1,23 @@
 #!/bin/bash
 
 if [ $# -eq 0 ]; then
-    echo "usage: $0 PASSWORD [PORT=4000]"
+    echo "usage: $0 PASSWORD [PORT=389]"
     exit;
 elif [ "$#" -eq 1 ]; then
     PASSWORD="$1";
-    PORT=4000
+    PORT=389
 else
     PASSWORD="$1"
     PORT=$2
 fi
 
-printf "Starting container... "
-CONTAINER=$(docker run -d -p $PORT:389 --env PASSWORD="$PASSWORD" ldap)
+printf "Starting container...\n"
+if [ $PORT -gt 1024 ]; then
+    CONTAINER=$(docker run -d -p $PORT:389 --env PASSWORD="$PASSWORD" ldap);
+else
+    printf "Trying to use $PORT port. You must have been admin\n"
+    CONTAINER=$(sudo docker run -d -p $PORT:389 --env PASSWORD="$PASSWORD" ldap);
+fi
 printf "Done\n"
 echo $CONTAINER > container_hash
 
